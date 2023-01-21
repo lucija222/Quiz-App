@@ -1,0 +1,60 @@
+{
+    "questions": [
+        {
+            "type": "text-input",
+            "question": "What will both functions return?",
+            "questionCode": "../assets/images/questionImages/q1-code.png",
+            "answers": [],
+            "correct_answers": ["hello, undefined"]
+        },
+        {
+            "type": "radio-buttons",
+            "question": "What will be logged from the following code?",
+            "questionCode": "../assets/images/questionImages/q2-code.png",
+            "answers": [
+                "false, true, false, true",
+                "1, 1, false, true",
+                "1, 2, 0, 1",
+                "1, 1, 0, 2"
+            ],
+            "correct_answers": ["1, 1, 0, 2"]
+        },
+        {
+            "type": "text-input",
+            "question": "Fill in the blank: _____/await.",
+            "questionCode": "",
+            "answers": [],
+            "correct_answers": ["async"]
+        },
+        {
+            "type": "radio-buttons",
+            "question": "What will be logged from the following code?",
+            "questionCode": "../assets/images/questionImages/q4-code.png",
+            "answers": [
+                "true, false",
+                "false, true",
+                "true, true",
+                "false, false"
+            ],
+            "correct_answers": ["true, false"]
+        },
+        {
+            "type": "text-input",
+            "question": "What will be logged from the following code?",
+            "questionCode": "../assets/images/questionImages/q5-code.png",
+            "answers": [],
+            "correct_answers": ["string"]
+        }
+    ],
+    "memes": [
+        "../assets/images/memes/css.jpg",
+        "../assets/images/memes/disco.jpg",
+        "../assets/images/memes/framworks.jpg",
+        "../assets/images/memes/loops.jpg",
+        "../assets/images/memes/magic.jpg",
+        "../assets/images/memes/react.jpg",
+        "../assets/images/memes/stackoverflow.jpg",
+        "../assets/images/memes/typo.jpg"
+    ],
+    "tryAgainMeme": "../assets/images/failMeme/404error.jpg"
+}
