@@ -1,0 +1,160 @@
+
+componentDidMount(): void {
+        const species: Promise<any> = getSpecies('Human', 'Droid', 'Wookie');
+
+        species.then((species: Array<ISpecie>) => {
+            const isLoad = true;
+            this.setState({ isLoad, species });
+        });
+    }
+----------------------
+export const getSpecies = async (...speciesParams: Array<string>): Promise<any> => {
+    const species: Array<ISpecie> = [];
+    const fillSpecies = (specieObject: any): void => {
+        if (specieObject) {
+            species.push({
+                name: specieObject.name,
+                classification: specieObject.classification,
+                designation: specieObject.designation,
+                language: specieObject.language,
+                people: specieObject.people,
+            });
+        }
+    };
+
+    try {
+        if (speciesParams.length > 0) {
+            for (const specie of speciesParams) {
+                const response = await getResource(`${API_SPECIES}?search=${specie}`);
+
+                fillSpecies(response?.data?.results[0]);
+            }
+        } else {
+            const response = await getResource(API_SPECIES);
+
+            for (const specieObject of response?.data?.results) {
+                fillSpecies(specieObject);
+            }
+        }
+    } catch (error) {
+        console.error(error);
+    }
+
+    return species;
+};
+--------------------------
+async function getData(url, method = "GET", data = {}) {
+    loader.classList.remove("hideElement");
+
+    const response = await fetch(url, {
+        method: method,
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            Autorization: "Bearer <token>",
+        },
+        body: method != "GET" ? JSON.stringify(data) : null,
+    });
+
+    return response;
+}
+
+//----------------------------EVENT LISTENER WHICH CALLS getData
+searchInput.addEventListener("input", (event) => {
+    if (tableElement.classList.contains("hideElement")) {
+        tableElement.classList.remove("hideElement");
+        errorDiv.classList.add("hideElement");
+    }
+
+    let newSearchInputValue = event.target.value;
+
+    if (newSearchInputValue === "") {
+        tableBody.replaceChildren();
+        return;
+    }
+    const encodedNewSearchInputValue = encodeURIComponent(newSearchInputValue);
+
+    const itunes_API_URL = `https://itunes.apple.com/search?term=${encodedNewSearchInputValue}&entity=song`;
+
+    getData(itunes_API_URL)
+        .then((response) => {
+            console.log(response);
+
+            if (!response.ok) {
+                errorDivMessage(tryAgainError);
+                return;
+            }
+            response.json().then((data) => {
+                const resultsArray = data.results;
+                let generatedTableHTML = "";
+
+                if (resultsArray <= 0) {
+                    const noMatchFound =
+                        "We didn't find any matches for your search.";
+                    errorDivMessage(noMatchFound);
+                    return;
+                }
+
+                for (let i = 0; i < resultsArray.length; i++) {
+                    const currentSong = resultsArray[i];
+
+                    generatedTableHTML += "<tr>";
+                    generatedTableHTML += `<td>${currentSong.trackName}</td>`;
+                    generatedTableHTML += `<td>${currentSong.artistName}</td>`;
+                    generatedTableHTML += `
+                    <td> 
+                        <audio controls src="${currentSong.previewUrl}">
+                            <a href="${currentSong.previewUrl}">
+                                Download audio
+                            </a>
+                        </audio>
+                    </td>`;
+                    generatedTableHTML += "</tr>";
+                }
+                tableBody.innerHTML = generatedTableHTML;
+            });
+        })
+        .catch(() => {
+            errorDivMessage(tryAgainError);
+        })
+        .finally(() => {
+            loader.classList.add("hideElement");
+        });
+});
+
+
+-----------------------
+IZ FETCH POKUSAJA
+   // (state => ({
+    //     page: state.page + 1
+    //   }), () => console.log(this.state) )
+    
+
+    // componentDidMount() {
+    //     const getData = async () => {
+    //         const dataFromLocal = await fetchData();
+    //         console.log('dataFromLocal', dataFromLocal);
+    //     }
+    //     getData();
+    // }
+
+    // fetchData = async () => {
+    //     const response = await fetch('/services/data.json');
+    //     const data = await response.json();
+    //     return data;
+    // }
+
+    // componentDidMount() {
+    //     fetch("src/services/data.json")
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             console.log(data);
+    //             this.setState({
+    //                 isLoaded: true,
+    //                 questions: data.questions,
+    //                 memes: data.memes,
+    //                 tryAgainMeme: data.tryAgainMeme,
+    //             });
+    //         })
+    //         .catch((error) => console.error(`Error occured: ${error}`))
+    // }
