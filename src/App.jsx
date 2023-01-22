@@ -1,23 +1,28 @@
 import { Component } from "react";
-import { getData } from "./services/fetch";
+import dataJson from "./assets/data.json";
 
 class App extends Component {
-    state = {
-        isLoaded: false,
-        questions: [],
-        memes: [],
-        tryAgainMeme: "",
-    };
+  state = {
+    isLoaded: false,
+    questions: [],
+    memes: [],
+    tryAgainMeme: "",
+  };
 
-    componentDidMount() {
-        const data = getData();
-        this.setState(() => ({questions: data.questions, memes: data.memes, tryAgainMeme: data.tryAgainMeme}),
-        () => console.log(this.state))
-    };
+  componentDidMount() {
+    this.setState(
+      () => ({
+        questions: dataJson.questions,
+        memes: dataJson.memes,
+        tryAgainMeme: dataJson.tryAgainMeme,
+      }),
+      () => console.log(this.state)
+    );
+  }
 
-    render() {
-        return <></>;
-    }
+  render() {
+    return <></>;
+  }
 }
 
 export default App;
