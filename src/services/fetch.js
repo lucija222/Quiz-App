@@ -2,10 +2,8 @@
 //https://jsonserve.com/
 
 export const getData = async () => {
-    const data = await fetchData("https://api.jsonbin.io/v3/qs/63cd48d5c0e7653a055e8524", "GET");
-    // const x = await response;
-    console.log(data);
-    return data;
+    const response = await fetchData("https://api.jsonbin.io/v3/qs/63cd48d5c0e7653a055e8524", "GET");
+    return await response.json();
 };
 
 async function fetchData(url, method = "GET", data = {}) {
